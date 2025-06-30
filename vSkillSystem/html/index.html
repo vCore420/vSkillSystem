@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vSkillSystem</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="nui-container">
+        <div id="equipped-section">
+            <h2>Equipped Skills</h2>
+            <div id="equipped-skills">
+                <div class="skill-slot" data-slot="1"></div>
+                <div class="skill-slot" data-slot="2"></div>
+                <div class="skill-slot" data-slot="3"></div>
+            </div>
+            <div id="gacha-section">
+                <button id="gacha-btn">Roll for New Skill</button>
+            </div>
+        </div>
+        <div id="inventory-section">
+            <h2>Skill Inventory</h2>
+            <div id="skill-inventory">
+            </div>
+        </div>
+        <div id="details-section">
+            <h2>Skill Details</h2>
+            <div id="skill-details">
+                <p>Select a skill to see details.</p>
+            </div>
+            <button id="upgrade-btn" disabled>Upgrade Skill</button>
+        </div>
+        <div id="gacha-modal" class="hidden">
+            <div id="gacha-modal-inner">
+                <div id="gacha-reel-box">
+                    <div id="gacha-reel-slot"></div>
+                </div>
+                <button id="gacha-spin">Spin</button>
+                <button id="gacha-close">Close</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
