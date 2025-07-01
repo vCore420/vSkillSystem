@@ -13,11 +13,11 @@
 SkillEffects = {
     berserker = function(level)
         -- Skill logic here
-        print("Apply Berserker effect, level:", level) -- have made it to that point, need to expand from here 30/6
+        if deBug then print("Apply Berserker effect, level:", level) end -- have made it to that point, need to expand from here 30/6 
     end,
     gunslinger = function(level)
         -- Skill logic here
-        print("Apply Gunslinger effect, level:", level)
+        if deBug then print("Apply Gunslinger effect, level:", level) end
     end,
     -- Add more skills effects here...
 }
@@ -26,11 +26,11 @@ SkillEffects = {
 SkillReverts = {
     berserker = function()
         -- Your revert logic here
-        print("Revert Berserker effect") -- have made it to that point, need to expand from here 30/6
+        if deBug then print("Revert Berserker effect") end -- have made it to that point, need to expand from here 30/6
     end,
     gunslinger = function()
         -- Your revert logic here
-        print("Revert Gunslinger effect")
+        if deBug then print("Revert Gunslinger effect") end
     end,
     -- Add more effect reverts here...
 }
