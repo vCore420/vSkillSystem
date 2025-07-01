@@ -10,6 +10,7 @@
 --------------------------------------
 -- vSkillSystem ----------------------
 --------------------------------------
+local deBug = Config.deBug
 local currentEffects = {}
 
 -- Skill Effects and Reverts
@@ -23,7 +24,7 @@ RegisterNUICallback("updateEquipped", function(data, cb)
         local prevSkill = currentEffects[player][slot]
         local newSkill = equipped[slot] and equipped[slot].id or nil
         if prevSkill and prevSkill ~= newSkill then
-            print(("Reverting effect for slot %d: %s"):format(slot, prevSkill))
+            if deBug then print(("Reverting effect for slot %d: %s"):format(slot, prevSkill)) end
             if SkillReverts[prevSkill] then
                 SkillReverts[prevSkill]()
             end
@@ -34,7 +35,7 @@ RegisterNUICallback("updateEquipped", function(data, cb)
     for slot = 1, 3 do
         local skill = equipped[slot]
         if skill and skill.id and currentEffects[player][slot] ~= skill.id then
-            print(("Applying effect for slot %d: %s"):format(slot, skill.id))
+            if deBug then print(("Applying effect for slot %d: %s"):format(slot, skill.id)) end
             if SkillEffects[skill.id] then
                 SkillEffects[skill.id](skill.level or 1)
             end
