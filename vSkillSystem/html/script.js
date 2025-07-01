@@ -10,12 +10,12 @@ const skills = [
         label: "Berserker",
         type: "player",
         image: "berserker.png",
-        description: "Increases damage and speed, but lowers defense.",
-        buffs: { damage: 0.15, speed: 0.10 },
-        drawbacks: { defense: -0.10 },
+        description: "Increases player speed, but lowers health.",
+        buffs: { speed: 0.20 },
+        drawbacks: { health: -0.10 },
         level: 1,
         rarity: "common",
-        gachaChance: 0.5
+        gachaChance: 0.8
     },
     {
         id: "gunslinger",
