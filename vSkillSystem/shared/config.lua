@@ -1,3 +1,3 @@
--- vSkillSystem Config.lua
+Config = {}
 
---TODO
+Config.deBug = true 
