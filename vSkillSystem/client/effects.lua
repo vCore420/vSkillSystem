@@ -6,11 +6,6 @@
 --------------------
 -- Skill Effects
 --------------------
--- local calls
-local ped = PlayerPedId()
-local currentAccuracy = GetPedAccuracy(ped)
-local currentReload = GetPedReloadSpeedMultiplier(ped)
-
 -- These are called the moment a skill is equipped or unequipped.
 
 -- Add Effect For Skills Heres
@@ -22,6 +17,10 @@ SkillEffects = {
     end,
 
     gunslinger = function(level)
+        local ped = PlayerPedId()
+        local currentAccuracy = GetPedAccuracy(ped)
+        local currentReload = GetPedReloadSpeedMultiplier(ped)
+
         -- Calculate bonuses
         local accuracyBonus = 0.20 * (level or 1)
         local reloadBonus = 0.15 * (level or 1)
@@ -47,6 +46,10 @@ SkillReverts = {
     end,
 
     gunslinger = function()
+        local ped = PlayerPedId()
+        local currentAccuracy = GetPedAccuracy(ped)
+        local currentReload = GetPedReloadSpeedMultiplier(ped)
+
         -- Calculate the same bonuses so we can subtract them
         local accuracyBonus = 0.20 * (level or 1)
         local reloadBonus = 0.15 * (level or 1)
