@@ -5,7 +5,6 @@
 -- make server.lua where the inventory, levels and equiped skills can be saved to the database
 -- make function to pull skill data from DB and apply to player
 -- make a config.lua for the gacha cost and upgrade cost
--- at the end make all the prints configurable with a debug variable in the config.lua
 
 --------------------------------------
 -- vSkillSystem ----------------------
