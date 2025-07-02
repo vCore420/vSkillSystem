@@ -34,6 +34,10 @@ SkillEffects = {
         if deBug then print(string.format("Gunslinger applied: +%.0f accuracy, +%.0f%% reload speed", accuracyBonus * 100, reloadBonus * 100)) end
     end,
 
+    slowjumper = function(level)
+        -- skill logic for slowjumper here
+    end,
+
     -- Add more effects here...
 }
 
@@ -61,6 +65,10 @@ SkillReverts = {
         SetPedReloadSpeedMultiplier(ped, math.max(0.1, currentReload - reloadBonus))
 
         if deBug then print(string.format("Gunslinger reverted: -%.0f accuracy, -%.0f%% reload speed", accuracyBonus * 100, reloadBonus * 100)) end
+    end,
+
+    slowjumper = function()
+        -- slow jumper revert here
     end,
 
     -- Add more effect reverts here...
