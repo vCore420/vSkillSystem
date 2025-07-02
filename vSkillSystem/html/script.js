@@ -29,7 +29,19 @@ const skills = [
         rarity: "rare",
         gachaChance: 0.2
     },
-    // Add more test skills here...
+    {
+        id: "slowjumper",
+        label: "Slow Jumper",
+        type: "player",
+        image: "slowjumper.png",
+        description: "Boosts players Jump height and fall damage but reduces players movement speed.",
+        buffs: { jump: 0.50, fall damage: 0.20 },
+        drawbacks: { movement: -0.4 },
+        level: 1,
+        rarity: "common",
+        gachaChance: 0.8
+    },
+    // Add more skills here...
 ];
 
 // Image paths for skills
