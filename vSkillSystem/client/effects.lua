@@ -49,7 +49,20 @@ SkillEffects = {
     end,
 
     slowjumper = function(level)
-        -- skill logic for slowjumper here
+        local ped = PlayerPedId()
+        local player = PlayerId()
+        local jumpBonus = 0.50 * (level or 1)
+        local speedPenalty = 0.40 * (level or 1)
+
+        -- Jump height
+        SetPedJumpHeightMultiplier(ped, 1.0 + jumpBonus)
+
+        -- Movement speed
+        local currentSpeed = GetRunSprintMultiplierForPlayer(player)
+        SetRunSprintMultiplierForPlayer(player, math.max(0.1, currentSpeed - speedPenalty))
+
+       if debug then print(string.format("Slow Jumper applied: +%.0f%% jump height, -%.0f%% fall damage, -%.0f%% movement speed", jumpBonus * 100, fallBuff * 100, speedPenalty * 100)) end
+       end
     end,
 
     -- Add more effects here...
