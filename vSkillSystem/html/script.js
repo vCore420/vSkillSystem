@@ -45,7 +45,7 @@ const skills = [
 ];
 
 // Image paths for skills
-skills.forEach(skill => skill.image = `/images/${skill.image}`);
+skills.forEach(skill => skill.image = `images/${skill.image}`);
 
 // Inventrory and Equipped Skills
 let inventory = [];
