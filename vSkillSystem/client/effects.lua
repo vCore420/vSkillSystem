@@ -12,8 +12,22 @@
 SkillEffects = {
 
     berserker = function(level)
-        -- Skill logic here
-        if deBug then print("Apply Berserker effect, level:", level) end -- have made it to that point, need to expand from here 30/6 
+        local ped = PlayerPedId()
+        local player = PlayerId()
+        local speedBonus = 0.20 * (level or 1)
+        local healthPenalty = 0.10 * (level or 1)
+
+        -- Movement speed
+        local currentSpeed = GetRunSprintMultiplierForPlayer(player)
+        local newSpeed = math.min(1.49, currentSpeed + speedBonus)
+        SetRunSprintMultiplierForPlayer(player, newSpeed)
+
+        -- Max health
+        local baseHealth = 200 -- default player max health in GTA V
+        local newMaxHealth = math.max(50, baseHealth * (1 - healthPenalty))
+        SetEntityMaxHealth(ped, newMaxHealth)
+
+        if debug then print(string.format("Berserker applied: +%.0f%% speed, -%.0f%% max health", speedBonus * 100, healthPenalty * 100)) end
     end,
 
     gunslinger = function(level)
