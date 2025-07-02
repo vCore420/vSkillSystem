@@ -62,7 +62,6 @@ SkillEffects = {
         SetRunSprintMultiplierForPlayer(player, math.max(0.1, currentSpeed - speedPenalty))
 
        if debug then print(string.format("Slow Jumper applied: +%.0f%% jump height, -%.0f%% fall damage, -%.0f%% movement speed", jumpBonus * 100, fallBuff * 100, speedPenalty * 100)) end
-       end
     end,
 
     -- Add more effects here...
@@ -109,7 +108,19 @@ SkillReverts = {
     end,
 
     slowjumper = function()
-        -- slow jumper revert here
+        local ped = PlayerPedId()
+        local player = PlayerId()
+        local jumpBonus = 0.50 * (level or 1)
+        local speedPenalty = 0.40 * (level or 1)
+
+        -- Jump height
+        SetPedJumpHeightMultiplier(ped, 1.0)
+
+        -- Movement speed
+        local currentSpeed = GetRunSprintMultiplierForPlayer(player)
+        SetRunSprintMultiplierForPlayer(player, math.min(1.0, currentSpeed + speedPenalty))
+
+        if debug then print(string.format("Slow Jumper reverted: -%.0f%% jump height, +%.0f%% fall damage, +%.0f%% movement speed", jumpBonus * 100, fallBuff * 100, speedPenalty * 100)) end
     end,
 
     -- Add more effect reverts here...
