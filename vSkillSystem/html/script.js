@@ -11,7 +11,7 @@ const skills = [
         type: "player",
         image: "berserker.png",
         description: "Increases player speed, but lowers health.",
-        buffs: { speed: 0.20 },
+        buffs: { movement speed: 0.20 },
         drawbacks: { health: -0.10 },
         level: 1,
         rarity: "common",
@@ -36,7 +36,7 @@ const skills = [
         image: "slowjumper.png",
         description: "Boosts players Jump height and fall damage but reduces players movement speed.",
         buffs: { jump: 0.50, fall damage: 0.20 },
-        drawbacks: { movement: -0.4 },
+        drawbacks: { movement speed: -0.4 },
         level: 1,
         rarity: "common",
         gachaChance: 0.8
