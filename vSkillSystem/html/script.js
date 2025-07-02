@@ -36,7 +36,7 @@ const skills = [
         image: "slowjumper.png",
         description: "Boosts players Jump height and fall damage but reduces players movement speed.",
         buffs: { jump: 0.50, fall: 0.20 },
-        drawbacks: { speed: -0.4 },
+        drawbacks: { speed: -0.40 },
         level: 1,
         rarity: "common",
         gachaChance: 0.8
