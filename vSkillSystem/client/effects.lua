@@ -59,8 +59,22 @@ SkillEffects = {
 SkillReverts = {
 
     berserker = function()
-        -- Your revert logic here
-        if deBug then print("Revert Berserker effect") end -- have made it to that point, need to expand from here 30/6
+        local ped = PlayerPedId()
+        local player = PlayerId()
+        local speedBonus = 0.20 * (level or 1)
+        local healthPenalty = 0.10 * (level or 1)
+
+        -- Revert movement speed
+        local currentSpeed = GetRunSprintMultiplierForPlayer(player)
+        local newSpeed = math.max(1.0, currentSpeed - speedBonus)
+        SetRunSprintMultiplierForPlayer(player, newSpeed)
+
+        -- Revert max health
+        local baseHealth = 200
+        local newMaxHealth = baseHealth
+        SetEntityMaxHealth(ped, newMaxHealth)
+
+        if debug then print(string.format("Berserker reverted: -%.0f%% speed, +%.0f%% max health", speedBonus * 100, healthPenalty * 100)) end
     end,
 
     gunslinger = function()
