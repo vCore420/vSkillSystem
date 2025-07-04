@@ -182,7 +182,7 @@ SkillEffects = {
 -- Revert Effects For Skills Here
 SkillReverts = {
 
-    berserker = function()
+    berserker = function(level)
         local ped = PlayerPedId()
         local player = PlayerId()
         local speedBonus = 0.20 * (level or 1)
@@ -201,7 +201,7 @@ SkillReverts = {
         if debug then print(string.format("Berserker reverted: -%.0f%% speed, +%.0f%% max health", speedBonus * 100, healthPenalty * 100)) end
     end,
 
-    gunslinger = function()
+    gunslinger = function(level)
         local ped = PlayerPedId()
         local currentAccuracy = GetPedAccuracy(ped)
         local currentReload = GetPedReloadSpeedMultiplier(ped)
@@ -217,7 +217,7 @@ SkillReverts = {
         if deBug then print(string.format("Gunslinger reverted: -%.0f accuracy, -%.0f%% reload speed", accuracyBonus * 100, reloadBonus * 100)) end
     end,
 
-    slowjumper = function()
+    slowjumper = function(level)
         local ped = PlayerPedId()
         local player = PlayerId()
         local jumpBonus = 0.50 * (level or 1)
@@ -233,7 +233,7 @@ SkillReverts = {
         if debug then print(string.format("Slow Jumper reverted: -%.0f%% jump height, +%.0f%% movement speed", jumpBonus * 100, speedPenalty * 100)) end
     end,
 
-    medicsinstinct = function()
+    medicsinstinct = function(level)
         local ped = PlayerPedId()
         local baseHealth = 200
 
@@ -250,7 +250,7 @@ SkillReverts = {
         if debug then print("Medic's Instinct reverted: max health restored, regen stopped") end
     end,
 
-    energizer = function()
+    energizer = function(level)
         local player = PlayerId()
         local defaultSprint = 1.0
         local defaultRegen = 1.0
@@ -268,7 +268,7 @@ SkillReverts = {
         if debug then print("Energizer reverted: stamina drain and regen restored") end
     end,
  
-    garbagedetonator = function()
+    garbagedetonator = function(level)
         garbagedetonatorActive = false
         garbagedetonatorThread = nil
         if debug then print("Garbage Detonator reverted: bins no longer explode on touch.") end
