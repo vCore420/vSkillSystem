@@ -24,6 +24,6 @@ files {
     'html/images/*.png',
     'html/index.html',
     'html/script.js',
-    'html/skills.js,
+    'html/skills.js',
     'html/style.css'
 }
