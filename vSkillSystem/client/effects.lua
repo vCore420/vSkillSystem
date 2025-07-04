@@ -150,5 +150,20 @@ SkillReverts = {
         if debug then print(string.format("Slow Jumper reverted: -%.0f%% jump height, +%.0f%% movement speed", jumpBonus * 100, speedPenalty * 100)) end
     end,
 
+    medicsinstinct = function()
+        local ped = PlayerPedId()
+        local baseHealth = 200
+
+        SetEntityMaxHealth(ped, baseHealth)
+        if GetEntityHealth(ped) > baseHealth then
+            SetEntityHealth(ped, baseHealth)
+        end
+
+        medicsInstinctActive = false
+        medicsInstinctRegenThread = nil
+
+        if debug then print("Medic's Instinct reverted: max health restored, regen stopped") end
+    end,
+
     -- Add more effect reverts here...
 }
