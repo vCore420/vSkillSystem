@@ -68,15 +68,20 @@ SkillEffects = {
         local healthPenalty = 0.10 * (level or 1)  -- 10% per level
         local regenRate = 0.02 * (level or 1)      -- 2% per level/sec
    			 local newMaxHealth = math.max(50, baseHealth * (1 - healthPenalty))
+
+        -- Set Max Health
     		 SetEntityMaxHealth(ped, newMaxHealth)
         if GetEntityHealth(ped) > newMaxHealth then
             SetEntityHealth(ped, newMaxHealth)
         end
 
+        -- Check loop isn't already running
         if medicsInstinctRegenThread then
             medicsInstinctActive = false
             medicsInstinctRegenThread = nil
         end
+
+       -- Start check for player health below 30% then start the health regen 
         medicsInstinctActive = true
         medicsInstinctRegenThread = Citizen.CreateThread(function()
             while medicsInstinctActive do
@@ -91,6 +96,29 @@ SkillEffects = {
         end)
 
        if debug then print(string.format("Medic's Instinct applied: -%.0f%% max health, +%.0f%%/sec regen below 30%% HP", healthPenalty * 100, regenRate * 100)) end
+    end,
+
+    energizer = function(level)
+        local ped = PlayerPedId()
+        local player = PlayerId()
+        local drainMult = 0.5 -- 50% per level, will need to add logic to increase slowly from here with upgrades as currently level maxs it out
+        local regenMult = 0.5 -- 50% per level
+
+        -- Save original player values
+        if not energizer_originalMultipliers then
+            energizer_originalMultipliers = {
+                sprint = GetPlayerSprintStaminaMultiplier(player),
+                regen = GetPlayerStaminaRechargeMultiplier(player)
+            }
+        end
+
+        -- Apply stamina drain reduction
+        SetPlayerSprintStaminaMultiplier(player, drainMult)
+
+        -- Apply stamina regen penalty
+        SetPlayerStaminaRechargeMultiplier(player, regenMult)
+
+        if debug then print("Energizer applied: -50% stamina drain, -50% stamina regen") end
     end,
 
     -- Add more effects here...
@@ -154,11 +182,13 @@ SkillReverts = {
         local ped = PlayerPedId()
         local baseHealth = 200
 
+        -- Revert Player Max Health
         SetEntityMaxHealth(ped, baseHealth)
         if GetEntityHealth(ped) > baseHealth then
             SetEntityHealth(ped, baseHealth)
         end
 
+        -- End Regen Loop
         medicsInstinctActive = false
         medicsInstinctRegenThread = nil
 
