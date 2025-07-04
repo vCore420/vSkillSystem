@@ -171,9 +171,12 @@ function sendEquippedSkillsToLua() {
 
 // Equip a skill to the first available slot
 function equipSkill(id) {
+    // Check if the skill is already equipped
+    if (equipped.some(s => s && s.id === id)) {
+        return;
+    }
     const idx = equipped.findIndex(s => !s);
     if (idx === -1) {
-        alert("All slots are full!");
         return;
     }
     const skill = inventory.find(s => s.id === id);
