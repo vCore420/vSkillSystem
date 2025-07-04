@@ -241,3 +241,11 @@ window.addEventListener('message', function(event) {
     }
 });
 
+document.addEventListener('keydown', function(e) {
+    if (e.key === "Escape") {
+        // Hide the menu and notify Lua
+        document.getElementById('nui-container').style.display = 'none';
+        fetch('https://vSkillSystem/closeSkills', { method: 'POST' });
+        e.preventDefault();
+    }
+});
