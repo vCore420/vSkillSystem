@@ -1,5 +1,4 @@
 // todo 
-// - need to stop the same skill being equiped more than once
 // - update the skills effect when its upgraded as well so it doesnt have to be re-equipped
 // - Clean up Css and wrap colous in a root variable for easy theme changes
 
