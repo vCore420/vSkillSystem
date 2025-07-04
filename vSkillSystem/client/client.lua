@@ -25,7 +25,7 @@ RegisterNUICallback("updateEquipped", function(data, cb)
         if prevSkill and prevSkill ~= newSkill then
             if deBug then print(("Reverting effect for slot %d: %s"):format(slot, prevSkill)) end
             if SkillReverts[prevSkill] then
-                SkillReverts[prevSkill]()
+                SkillReverts[prevSkill](skill.level or 1)
             end
         end
     end
