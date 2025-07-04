@@ -62,6 +62,37 @@ SkillEffects = {
        if debug then print(string.format("Slow Jumper applied: +%.0f%% jump height, -%.0f%% movement speed", jumpBonus * 100, speedPenalty * 100)) end
     end,
 
+    medicsinstinct = function(level)
+        local ped = PlayerPedId()
+        local baseHealth = 200
+        local healthPenalty = 0.10 * (level or 1)  -- 10% per level
+        local regenRate = 0.02 * (level or 1)      -- 2% per level/sec
+   			 local newMaxHealth = math.max(50, baseHealth * (1 - healthPenalty))
+    		 SetEntityMaxHealth(ped, newMaxHealth)
+        if GetEntityHealth(ped) > newMaxHealth then
+            SetEntityHealth(ped, newMaxHealth)
+        end
+
+        if medicsInstinctRegenThread then
+            medicsInstinctActive = false
+            medicsInstinctRegenThread = nil
+        end
+        medicsInstinctActive = true
+        medicsInstinctRegenThread = Citizen.CreateThread(function()
+            while medicsInstinctActive do
+                Citizen.Wait(1000)
+                local maxHealth = GetEntityMaxHealth(ped)
+                local health = GetEntityHealth(ped)
+                if health > 0 and health < math.floor(maxHealth * 0.3) then
+                    local regen = math.floor(maxHealth * regenRate)
+                    SetEntityHealth(ped, math.min(health + regen, maxHealth))
+                end
+            end
+        end)
+
+       if debug then print(string.format("Medic's Instinct applied: -%.0f%% max health, +%.0f%%/sec regen below 30%% HP", healthPenalty * 100, regenRate * 100)) end
+    end,
+
     -- Add more effects here...
 }
 
