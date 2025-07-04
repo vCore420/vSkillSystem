@@ -220,6 +220,8 @@ function showGachaModal() {
 
 // Gacha Reel Animation and Logic
 function spinGachaReel() {
+    gachaSpin.disabled = true;
+
     const reelBox = document.getElementById('gacha-reel-box');
     const reelSlot = document.getElementById('gacha-reel-slot');
     reelBox.className = ''; 
@@ -246,7 +248,7 @@ function spinGachaReel() {
     function spinStep() {
         const skill = spinSequence[idx];
         reelSlot.innerHTML = `<img src="${skill.image}" alt="${skill.label}">`;
-        reelBox.className = ''; 
+        reelBox.className = '';
         idx++;
         if (idx < spinSequence.length) {
             let delay = 60 + Math.pow(idx, 1.7);
@@ -261,6 +263,7 @@ function spinGachaReel() {
                 inventory.push({...winner});
             }
             renderInventory();
+            gachaSpin.disabled = false;
         }
     }
     spinStep();
