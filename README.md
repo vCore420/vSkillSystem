@@ -6,7 +6,7 @@ Rartirty basied skills with simple common skills to game breaking legendary skil
 Unique player, gun and melea skills with cool buffs and drawbacks.
 The user can set up to 3 different skills at once allowing for custom and unique skill sets. 
 
-Easily add more skills to the Nui in the skills.js and added the effect logic and revert logic in the effects.lua.
+Easily add more skills to the Nui in the skills.js and add the effect logic and revert logic in the effects.lua.
 
 
 Very early stages at the moment. any help/input welcome, completely open source, I just enjoy doing this to learn!
