@@ -121,6 +121,59 @@ SkillEffects = {
         if debug then print("Energizer applied: -50% stamina drain, -50% stamina regen") end
     end,
 
+    garbagedetonator = function(level)
+        local ped = PlayerPedId()
+        local explosionPower = 1.0 * (level or 1)
+        local selfDamagePercent = 0.10 * (level or 1) -- maybe rework this one so the drawback gets decreased as the skill gets leveled up
+        if garbagedetonatorThread then
+            garbagedetonatorActive = false
+            garbagedetonatorThread = nil
+        end
+        garbagedetonatorActive = true
+
+        garbagedetonatorThread = Citizen.CreateThread(function()
+            -- List of rubbish bin models
+            local binHashes = {
+                GetHashKey("prop_bin_01a"),
+                GetHashKey("prop_bin_02a"),
+                GetHashKey("prop_bin_03a"),
+                GetHashKey("prop_bin_04a"),
+                GetHashKey("prop_bin_05a"),
+                GetHashKey("prop_bin_06a"),
+                GetHashKey("prop_bin_07a"),
+                GetHashKey("prop_bin_07b"),
+                GetHashKey("prop_bin_07c"),
+            }
+            local lastExplosion = 0
+
+            while garbagedetonatorActive do
+                Citizen.Wait(100)
+                local pos = GetEntityCoords(ped)
+                for _, hash in ipairs(binHashes) do
+                    -- Search for bins nearby
+                    local obj = GetClosestObjectOfType(pos.x, pos.y, pos.z, 1.2, hash, false, false, false)
+                    if obj and obj ~= 0 then
+                        -- Prevent constant triggering (cooldown)
+                        if (GetGameTimer() - lastExplosion) > 1500 then
+                            local binPos = GetEntityCoords(obj)
+                            AddExplosion(binPos.x, binPos.y, binPos.z, 29, explosionPower, true, false, 1.0)
+                            lastExplosion = GetGameTimer()
+
+                            -- Apply self-damage
+                            local health = GetEntityHealth(ped)
+                            local damage = math.floor(100 * selfDamagePercent)
+                            SetEntityHealth(ped, math.max(health - damage, 0))
+
+                            if debug then print("Garbage Detonator: Bin exploded! Self-damage applied.") end
+                        end
+                    end
+                end
+            end
+        end)
+
+        if debug then print("Garbage Detonator effect applied: bins explode on touch, player takes splash damage.") end
+    end,
+
     -- Add more effects here...
 }
 
