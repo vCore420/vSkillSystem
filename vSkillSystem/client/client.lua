@@ -1,5 +1,4 @@
 -- todo -
--- add better way to close menu as chat box cant be opened when the skill menu is open
 -- make the gacha spins cost a in game item or money - make a congif lua for this
 -- make upgrading skill cost too by item or money **, add cap for skill levels
 -- make server.lua where the inventory, levels and equiped skills can be saved to the database
