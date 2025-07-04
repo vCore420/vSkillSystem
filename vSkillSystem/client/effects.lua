@@ -143,6 +143,8 @@ SkillEffects = {
                 GetHashKey("prop_bin_07a"),
                 GetHashKey("prop_bin_07b"),
                 GetHashKey("prop_bin_07c"),
+                GetHashKey("prop_bin_07d"),
+                GetHashKey("prop_bin_08a")
             }
             local lastExplosion = 0
 
