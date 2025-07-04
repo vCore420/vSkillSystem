@@ -93,6 +93,7 @@ let selectedSkill = null;
 // Gacha Modal Elements
 const gachaModal = document.getElementById('gacha-modal');
 const gachaClose = document.getElementById('gacha-close');
+const gachaSpin = document.getElementById('gacha-spin');
 
 // Render Inventory, Equipped Skills and Skill Details to Nui
 function renderInventory() {
