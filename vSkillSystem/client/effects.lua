@@ -18,7 +18,7 @@ SkillEffects = {
         local player = PlayerId()
         local speedBonus = 0.20 * (level or 1)
         local healthPenalty = 0.10 * (level or 1)
-        local currentSpeed = GetRunSprintMultiplierForPlayer(player)
+        local currentSpeed = GetRunSprintMultiplierForPlayer(player) -- Replace this with Working Logic
         local newSpeed = math.min(1.49, currentSpeed + speedBonus)
         local baseHealth = 200 -- default player max health, need to make a way to track players current max and store increases and decreases to work with other skills, this will revert back to GTA 5 default when removed no matter how many health increase skills are equipped 
         local newMaxHealth = math.max(50, baseHealth * (1 - healthPenalty))
@@ -37,10 +37,10 @@ SkillEffects = {
         local player = PlayerId()
         local jumpBonus = 0.50 * (level or 1)
         local speedPenalty = 0.40 * (level or 1)
-        local currentSpeed = GetRunSprintMultiplierForPlayer(player)
+        local currentSpeed = GetRunSprintMultiplierForPlayer(player) -- Replace this with Working Logic
 
         -- Jump height
-        SetPedJumpHeightMultiplier(ped, 1.0 + jumpBonus)
+        SetPedJumpHeightMultiplier(ped, 1.0 + jumpBonus) -- Replace this with Working Logic
 
         -- Movement speed
         SetRunSprintMultiplierForPlayer(player, math.max(0.1, currentSpeed - speedPenalty))
@@ -93,16 +93,16 @@ SkillEffects = {
         -- Save original player values
         if not energizer_originalMultipliers then
             energizer_originalMultipliers = {
-                sprint = GetPlayerSprintStaminaMultiplier(player),
-                regen = GetPlayerStaminaRechargeMultiplier(player)
+                sprint = GetPlayerSprintStaminaMultiplier(player), -- Replace this with Working Logic
+                regen = GetPlayerStaminaRechargeMultiplier(player) -- Replace this with Working Logic
             }
         end
 
         -- Apply stamina drain reduction
-        SetPlayerSprintStaminaMultiplier(player, drainMult)
-
+        SetPlayerSprintStaminaMultiplier(player, drainMult) -- Replace this with Working Logic
+ 
         -- Apply stamina regen penalty
-        SetPlayerStaminaRechargeMultiplier(player, regenMult)
+        SetPlayerStaminaRechargeMultiplier(player, regenMult) -- Replace this with Working Logic
 
         if debug then print("Energizer applied: -50% stamina drain, -50% stamina regen") end
     end,
@@ -167,7 +167,7 @@ SkillEffects = {
     gunslinger = function(level)
         local ped = PlayerPedId()
         local currentAccuracy = GetPedAccuracy(ped)
-        local currentReload = GetPedReloadSpeedMultiplier(ped)
+        local currentReload = GetPedReloadSpeedMultiplier(ped) -- Replace this with Working Logic
         local accuracyBonus = 0.20 * (level or 1)
         local reloadBonus = 0.15 * (level or 1)
         
@@ -175,7 +175,7 @@ SkillEffects = {
         SetPedAccuracy(ped, math.min(100, currentAccuracy + (accuracyBonus * 100)))
         
         -- Reload Buff
-        SetPedReloadSpeedMultiplier(ped, currentReload + reloadBonus)
+        SetPedReloadSpeedMultiplier(ped, currentReload + reloadBonus) -- Replace this with Working Logic
 
         if deBug then print(string.format("Gunslinger applied: +%.0f accuracy, +%.0f%% reload speed", accuracyBonus * 100, reloadBonus * 100)) end
     end,
@@ -265,7 +265,7 @@ SkillReverts = {
     end,
 
     -- Gun Skills
-    
+
     gunslinger = function(level)
         local ped = PlayerPedId()
         local currentAccuracy = GetPedAccuracy(ped)
