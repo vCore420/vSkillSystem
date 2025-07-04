@@ -23,6 +23,38 @@ body {
     min-height: 320px;
     box-shadow: 0 4px 16px #0004;
 }
+#inventory-section label[for="inventory-sort"] {
+    color: #aaa;
+    font-size: 1rem;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+#inventory-section select#inventory-sort {
+    background: #2d3038;
+    color: #fff;
+    border: 2px solid #444;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 1rem;
+    margin-bottom: 16px;
+    margin-right: 8px;
+    margin-left: 2px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    box-shadow: 0 2px 6px #0002;
+    appearance: none; /* Remove default arrow styling */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+#inventory-section select#inventory-sort:focus {
+    border-color: #4fc3f7;
+    box-shadow: 0 0 0 2px #4fc3f777;
+}
+#inventory-section select#inventory-sort option {
+    background: #23262f;
+    color: #fff;
+}
 #skill-inventory {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
