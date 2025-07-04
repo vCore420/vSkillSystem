@@ -11,6 +11,8 @@
 -- Add Effect For Skills Heres
 SkillEffects = {
 
+    -- Player Skills
+
     berserker = function(level)
         local ped = PlayerPedId()
         local player = PlayerId()
@@ -28,22 +30,6 @@ SkillEffects = {
         SetEntityMaxHealth(ped, newMaxHealth)
 
         if debug then print(string.format("Berserker applied: +%.0f%% speed, -%.0f%% max health", speedBonus * 100, healthPenalty * 100)) end
-    end,
-
-    gunslinger = function(level)
-        local ped = PlayerPedId()
-        local currentAccuracy = GetPedAccuracy(ped)
-        local currentReload = GetPedReloadSpeedMultiplier(ped)
-        local accuracyBonus = 0.20 * (level or 1)
-        local reloadBonus = 0.15 * (level or 1)
-        
-        -- Accuracy Buff
-        SetPedAccuracy(ped, math.min(100, currentAccuracy + (accuracyBonus * 100)))
-        
-        -- Reload Buff
-        SetPedReloadSpeedMultiplier(ped, currentReload + reloadBonus)
-
-        if deBug then print(string.format("Gunslinger applied: +%.0f accuracy, +%.0f%% reload speed", accuracyBonus * 100, reloadBonus * 100)) end
     end,
 
     slowjumper = function(level)
@@ -176,11 +162,31 @@ SkillEffects = {
         if debug then print("Garbage Detonator effect applied: bins explode on touch, player takes splash damage.") end
     end,
 
+    -- Gun Skills
+
+    gunslinger = function(level)
+        local ped = PlayerPedId()
+        local currentAccuracy = GetPedAccuracy(ped)
+        local currentReload = GetPedReloadSpeedMultiplier(ped)
+        local accuracyBonus = 0.20 * (level or 1)
+        local reloadBonus = 0.15 * (level or 1)
+        
+        -- Accuracy Buff
+        SetPedAccuracy(ped, math.min(100, currentAccuracy + (accuracyBonus * 100)))
+        
+        -- Reload Buff
+        SetPedReloadSpeedMultiplier(ped, currentReload + reloadBonus)
+
+        if deBug then print(string.format("Gunslinger applied: +%.0f accuracy, +%.0f%% reload speed", accuracyBonus * 100, reloadBonus * 100)) end
+    end,
+
     -- Add more effects here...
 }
 
 -- Revert Effects For Skills Here
 SkillReverts = {
+
+    -- Player Skills
 
     berserker = function(level)
         local ped = PlayerPedId()
@@ -199,22 +205,6 @@ SkillReverts = {
         SetEntityMaxHealth(ped, newMaxHealth)
 
         if debug then print(string.format("Berserker reverted: -%.0f%% speed, +%.0f%% max health", speedBonus * 100, healthPenalty * 100)) end
-    end,
-
-    gunslinger = function(level)
-        local ped = PlayerPedId()
-        local currentAccuracy = GetPedAccuracy(ped)
-        local currentReload = GetPedReloadSpeedMultiplier(ped)
-        local accuracyBonus = 0.20 * (level or 1)
-        local reloadBonus = 0.15 * (level or 1)
-        
-        -- Revert Accuracy Buff
-        SetPedAccuracy(ped, math.max(0, currentAccuracy - (accuracyBonus * 100)))
-
-        -- Revert Reload Buff
-        SetPedReloadSpeedMultiplier(ped, math.max(0.1, currentReload - reloadBonus))
-
-        if deBug then print(string.format("Gunslinger reverted: -%.0f accuracy, -%.0f%% reload speed", accuracyBonus * 100, reloadBonus * 100)) end
     end,
 
     slowjumper = function(level)
@@ -272,6 +262,24 @@ SkillReverts = {
         garbagedetonatorActive = false
         garbagedetonatorThread = nil
         if debug then print("Garbage Detonator reverted: bins no longer explode on touch.") end
+    end,
+
+    -- Gun Skills
+    
+    gunslinger = function(level)
+        local ped = PlayerPedId()
+        local currentAccuracy = GetPedAccuracy(ped)
+        local currentReload = GetPedReloadSpeedMultiplier(ped)
+        local accuracyBonus = 0.20 * (level or 1)
+        local reloadBonus = 0.15 * (level or 1)
+        
+        -- Revert Accuracy Buff
+        SetPedAccuracy(ped, math.max(0, currentAccuracy - (accuracyBonus * 100)))
+
+        -- Revert Reload Buff
+        SetPedReloadSpeedMultiplier(ped, math.max(0.1, currentReload - reloadBonus))
+
+        if deBug then print(string.format("Gunslinger reverted: -%.0f accuracy, -%.0f%% reload speed", accuracyBonus * 100, reloadBonus * 100)) end
     end,
 
     -- Add more effect reverts here...
