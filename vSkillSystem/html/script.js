@@ -94,12 +94,30 @@ let selectedSkill = null;
 const gachaModal = document.getElementById('gacha-modal');
 const gachaClose = document.getElementById('gacha-close');
 const gachaSpin = document.getElementById('gacha-spin');
+const rarityOrder = { common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5 };
+
+function sortInventory(skills, sortBy) {
+    switch (sortBy) {
+        case "az":
+            return skills.slice().sort((a, b) => a.label.localeCompare(b.label));
+        case "type":
+            return skills.slice().sort((a, b) => a.type.localeCompare(b.type) || a.label.localeCompare(b.label));
+        case "rarity":
+            return skills.slice().sort((a, b) => (rarityOrder[a.rarity] || 99) - (rarityOrder[b.rarity] || 99) || a.label.localeCompare(b.label));
+        case "level":
+            return skills.slice().sort((a, b) => (b.level || 0) - (a.level || 0) || a.label.localeCompare(b.label));
+        default:
+            return skills;
+    }
+}
 
 // Render Inventory, Equipped Skills and Skill Details to Nui
 function renderInventory() {
+    const sortBy = document.getElementById('inventory-sort')?.value || "az";
+    const sorted = sortInventory(inventory, sortBy);
     const inv = document.getElementById('skill-inventory');
     inv.innerHTML = '';
-    inventory.forEach(skill => {
+    sorted.forEach(skill => {
         const card = document.createElement('div');
         card.className = `skill-card ${skill.rarity || 'common'}`;
         card.dataset.id = skill.id;
@@ -109,6 +127,8 @@ function renderInventory() {
         inv.appendChild(card);
     });
 }
+
+document.getElementById('inventory-sort').addEventListener('change', renderInventory);
 
 function renderEquipped() {
     const eq = document.getElementById('equipped-skills');
