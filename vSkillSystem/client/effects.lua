@@ -195,5 +195,23 @@ SkillReverts = {
         if debug then print("Medic's Instinct reverted: max health restored, regen stopped") end
     end,
 
+    energizer = function()
+        local player = PlayerId()
+        local defaultSprint = 1.0
+        local defaultRegen = 1.0
+
+        -- Set Health stats to players saved values, or reset to defaults and stops Regen loop
+        if energizer_originalMultipliers then
+            SetPlayerSprintStaminaMultiplier(player, energizer_originalMultipliers.sprint or defaultSprint)
+            SetPlayerStaminaRechargeMultiplier(player, energizer_originalMultipliers.regen or defaultRegen)
+            energizer_originalMultipliers = nil
+        else
+            SetPlayerSprintStaminaMultiplier(player, defaultSprint)
+            SetPlayerStaminaRechargeMultiplier(player, defaultRegen)
+        end
+
+        if debug then print("Energizer reverted: stamina drain and regen restored") end
+    end,
+
     -- Add more effect reverts here...
 }
