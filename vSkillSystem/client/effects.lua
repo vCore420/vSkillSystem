@@ -267,6 +267,12 @@ SkillReverts = {
 
         if debug then print("Energizer reverted: stamina drain and regen restored") end
     end,
+ 
+    garbagedetonator = function()
+        garbagedetonatorActive = false
+        garbagedetonatorThread = nil
+        if debug then print("Garbage Detonator reverted: bins no longer explode on touch.") end
+    end,
 
     -- Add more effect reverts here...
 }
