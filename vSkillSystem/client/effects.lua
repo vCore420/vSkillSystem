@@ -200,7 +200,7 @@ SkillReverts = {
         local defaultSprint = 1.0
         local defaultRegen = 1.0
 
-        -- Set Health stats to players saved values, or reset to defaults and stops Regen loop
+        -- Set Health stats to players saved values, or reset to defaults
         if energizer_originalMultipliers then
             SetPlayerSprintStaminaMultiplier(player, energizer_originalMultipliers.sprint or defaultSprint)
             SetPlayerStaminaRechargeMultiplier(player, energizer_originalMultipliers.regen or defaultRegen)
