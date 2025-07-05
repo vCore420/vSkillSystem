@@ -6,13 +6,15 @@ body {
     padding: 0;
 }
 #nui-container {
-    display: none;
+    display: flex;
     flex-wrap: wrap;
     gap: 24px;
     padding: 32px;
     justify-content: center;
 }
 #equipped-section {
+    display: flex;
+    flex-direction: column;
     position: relative;
 }
 #equipped-section, #inventory-section, #details-section {
@@ -20,7 +22,7 @@ body {
     border-radius: 12px;
     padding: 24px;
     min-width: 300px;
-    min-height: 320px;
+    min-height: 350px;
     box-shadow: 0 4px 16px #0004;
 }
 #inventory-section label[for="inventory-sort"] {
@@ -29,6 +31,7 @@ body {
     margin-right: 6px;
     vertical-align: middle;
 }
+
 #inventory-section select#inventory-sort {
     background: #2d3038;
     color: #fff;
@@ -42,15 +45,17 @@ body {
     transition: border-color 0.2s, box-shadow 0.2s;
     outline: none;
     box-shadow: 0 2px 6px #0002;
-    appearance: none; /* Remove default arrow styling */
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     cursor: pointer;
 }
+
 #inventory-section select#inventory-sort:focus {
     border-color: #4fc3f7;
     box-shadow: 0 0 0 2px #4fc3f777;
 }
+
 #inventory-section select#inventory-sort option {
     background: #23262f;
     color: #fff;
@@ -84,7 +89,7 @@ body {
 .skill-slot.selected, .skill-card.selected {
     border: 2px solid #4fc3f7;
 }
-.skill-card img, .skill-slot img {
+.skill-card img, .skill-slot img, .crafting-slot img {
     width: 48px;
     height: 48px;
     border-radius: 4px;
@@ -100,7 +105,7 @@ button {
     color: #23262f;
     border: none;
     border-radius: 6px;
-    padding: 10px 24px;
+    padding: 10px 16px;
     font-size: 1rem;
     cursor: pointer;
     transition: background 0.2s;
@@ -108,6 +113,51 @@ button {
 button:disabled {
     background: #888;
     cursor: not-allowed;
+}
+#equipped-skills-content, #crafting-content {
+  transition: opacity 0.34s;
+}
+#equipped-skills-content.hidden, #crafting-content.hidden {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+}
+.crafting-slots-row {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 12px;
+}
+.crafting-result-row {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 0 0;
+}
+.crafting-slot {
+  width: 72px;
+  height: 72px;
+  background: #2d3038;
+  border-radius: 8px;
+  border: 2px dashed #4fc3f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.result-slot {
+  border-style: solid;
+  border-color: #ffd700;
+  background: #1a1c22;
+}
+#craft-btn {
+  display: block;
+  margin: 18px auto 0 auto;
+  width: 120px;
+}
+#toggle-crafting-btn {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  z-index: 2;
 }
 .skill-card.common, .skill-slot.common {
     border: 2px solid #aaa;

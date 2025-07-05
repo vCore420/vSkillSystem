@@ -8,14 +8,27 @@
 <body>
     <div id="nui-container">
         <div id="equipped-section">
-            <h2>Equipped Skills</h2>
-            <div id="equipped-skills">
-                <div class="skill-slot" data-slot="1"></div>
-                <div class="skill-slot" data-slot="2"></div>
-                <div class="skill-slot" data-slot="3"></div>
+            <h2 id="equipped-title">Equipped Skills</h2>
+            <div id="equipped-skills-content">
+                <div id="equipped-skills">
+                    <div class="skill-slot" data-slot="1"></div>
+                    <div class="skill-slot" data-slot="2"></div>
+                    <div class="skill-slot" data-slot="3"></div>
+                </div>
             </div>
+            <div id="crafting-content" style="display:none;">
+                <div class="crafting-slots-row">
+                    <div class="crafting-slot" data-craftslot="1"></div>
+                    <div class="crafting-slot" data-craftslot="2"></div>
+                </div>
+                <div class="crafting-result-row">
+                    <div class="crafting-slot result-slot" data-craftslot="result"></div>
+                </div>
+                <button id="craft-btn" style="margin: 12px auto 0 auto; display: block;">Craft</button>
+            </div>
+            <button id="toggle-crafting-btn">Skill Crafting</button>
             <div id="gacha-section">
-                <button id="gacha-btn">Roll for New Skill</button>
+               <button id="gacha-btn">Roll for New Skill</button>
             </div>
         </div>
         <div id="inventory-section">

@@ -76,3 +76,22 @@ const skills = [
         gachaChance: 0.7
     },
 ];
+
+// Craftable Skills, ones that can only be obtained by crafting other skills together
+const craftableSkills = [
+    {
+        requiredSkills: ["berserker", "gunslinger"], // IDs of required skills
+        resultSkill: {
+            id: "warlord",
+            label: "Warlord",
+            type: "player",
+            image: "warlord.png",
+            description: "Combines the ferocity of a Berserker and the precision of a Gunslinger.",
+            buffs: { speed: 0.15, accuracy: 0.15 },
+            drawbacks: { maxHealth: -0.05 },
+            rarity: "legendary",
+            gachaChance: 0.2
+        }
+    },
+    // Add more craftable skill entries as needed
+];

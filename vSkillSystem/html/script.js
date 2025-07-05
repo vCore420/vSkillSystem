@@ -1,16 +1,28 @@
-// todo 
-// - update the skills effect when its upgraded as well so it doesnt have to be re-equipped
+// todo
+// - update the details of skills effects when their upgraded in real time
+// - skills needs to be re equipped once upgraded for effects to come into play
+// - buttons for equip skill and add skill to crafting need to change in real time with crafting menu, need to re select skill for it to change right now
+// - skill inventory grows in height as inventory fills, change to a scrollable list
+// - add rarity label to skills details screen
 // - Clean up Css and wrap colous in a root variable for easy theme changes
 
-// vSkill System, add new skills to the nui over in the skills.js
-
 // Image paths for skills
-skills.forEach(skill => skill.image = `images/${skill.image}`);
+skills.forEach(skill => skill.image = `${skill.image}`);
 
 // Inventrory and Equipped Skills
 let inventory = [];
 let equipped = [null, null, null];
 let selectedSkill = null;
+
+// Crafting Model Elements 
+let craftingMode = false;
+let craftingSlots = [null, null];
+let craftResult = null;
+
+const equippedSkillsContent = document.getElementById('equipped-skills-content');
+const craftingContent = document.getElementById('crafting-content');
+const toggleBtn = document.getElementById('toggle-crafting-btn');
+const equippedTitle = document.getElementById('equipped-title');
 
 // Gacha Modal Elements
 const gachaModal = document.getElementById('gacha-modal');
@@ -50,8 +62,6 @@ function renderInventory() {
     });
 }
 
-document.getElementById('inventory-sort').addEventListener('change', renderInventory);
-
 function renderEquipped() {
     const eq = document.getElementById('equipped-skills');
     eq.querySelectorAll('.skill-slot').forEach((slot, idx) => {
@@ -68,7 +78,7 @@ function renderEquipped() {
     });
 }
 
-function renderDetails() {
+function renderDetails(previewOnly = false) {
     const details = document.getElementById('skill-details');
     if (!selectedSkill) {
         details.innerHTML = "<p>Select a skill to see details.</p>";
@@ -83,16 +93,46 @@ function renderDetails() {
             ${Object.entries(selectedSkill.buffs).map(([k, v]) => `<li>Buff: ${k} +${v * 100}%</li>`).join('')}
             ${Object.entries(selectedSkill.drawbacks).map(([k, v]) => `<li>Drawback: ${k} ${v * 100}%</li>`).join('')}
         </ul>
-        <button onclick="equipSkill('${selectedSkill.id}')">Equip</button>
+        <button id="equip-btn">${craftingMode ? 'Add to Crafting' : 'Equip'}</button>
     `;
+    
+    const inInventory = inventory.some(s => s.id === selectedSkill.id);
+    document.getElementById('upgrade-btn').disabled = previewOnly || !inInventory;
+
+    const equipBtn = document.getElementById('equip-btn');
+    if (equipBtn) {
+        if (craftingMode) {
+            equipBtn.onclick = () => {
+                addToCraftingSlot(selectedSkill);
+                renderCraftingSlots();
+                checkCraftRecipe();
+                renderDetails();
+            };
+            if (craftingSlots.some(s => s && s.id === selectedSkill.id)) {
+                equipBtn.disabled = true;
+            }
+        } else {
+            equipBtn.onclick = () => {
+                equipSkill(selectedSkill.id);
+                renderEquipped();
+                renderDetails();
+            };
+            if (equipped.some(s => s && s.id === selectedSkill.id)) {
+                equipBtn.disabled = true;
+            }
+        }
+    }
 }
+
+document.getElementById('inventory-sort').addEventListener('change', renderInventory);
 
 // Select a skill from inventory
 function selectSkill(id) {
-    selectedSkill = inventory.find(s => s.id === id);
-    renderDetails();
-    renderInventory();
-    document.getElementById('upgrade-btn').disabled = false;
+    const skill = inventory.find(s => s.id === id);
+    if (skill) {
+        showSkillDetails(skill, false);
+        document.getElementById('upgrade-btn').disabled = false;
+    }
 }
 
 // Send all slots and skill data to Lua
@@ -114,7 +154,6 @@ function sendEquippedSkillsToLua() {
 
 // Equip a skill to the first available slot
 function equipSkill(id) {
-    // Check if the skill is already equipped
     if (equipped.some(s => s && s.id === id)) {
         return;
     }
@@ -135,14 +174,128 @@ function unequipSkill(idx) {
     sendEquippedSkillsToLua();
 }
 
-// Upgrade button functionality - to be Advanced to work at the cost of a in game item
-// need to add comunication with Lua for this
+// Upgrade button functionality 
+// comunication with Lua 
 document.getElementById('upgrade-btn').onclick = () => {
     if (selectedSkill) {
         selectedSkill.level++;
         renderDetails();
         sendEquippedSkillsToLua(); 
     }
+};
+
+toggleBtn.addEventListener('click', () => {
+  craftingMode = !craftingMode;
+  if (craftingMode) {
+    equippedSkillsContent.classList.add('hidden');
+    setTimeout(() => {
+      equippedSkillsContent.style.display = 'none';
+      craftingContent.style.display = '';
+      setTimeout(() => craftingContent.classList.remove('hidden'), 30);
+    }, 340);
+    toggleBtn.textContent = 'Equipped Skills';
+    equippedTitle.textContent = 'Skill Crafting';
+  } else {
+    craftingContent.classList.add('hidden');
+    setTimeout(() => {
+      craftingContent.style.display = 'none';
+      equippedSkillsContent.style.display = '';
+      setTimeout(() => equippedSkillsContent.classList.remove('hidden'), 30);
+    }, 340);
+    toggleBtn.textContent = 'Skill Crafting';
+    equippedTitle.textContent = 'Equipped Skills';
+  }
+});
+
+// Render crafting slots
+function renderCraftingSlots() {
+    document.querySelectorAll('.crafting-slot[data-craftslot="1"], .crafting-slot[data-craftslot="2"]').forEach((slot, idx) => {
+        slot.innerHTML = craftingSlots[idx] ? `<img src="${craftingSlots[idx].image}" />` : '';
+        slot.onclick = () => { craftingSlots[idx] = null; renderCraftingSlots(); checkCraftRecipe(); };
+    });
+}
+
+// Add Skills from inventory into crafting slots
+function addToCraftingSlot(skill) {
+    let idx = craftingSlots.findIndex(s => !s);
+    if (idx !== -1 && !craftingSlots.some(s => s && s.id === skill.id)) {
+        craftingSlots[idx] = skill;
+        renderCraftingSlots();
+        checkCraftRecipe();
+    }
+}
+
+// Check for craftable result
+function checkCraftRecipe() {
+    if (craftingSlots[0] && craftingSlots[1]) {
+        let ids = craftingSlots.map(s => s.id).sort();
+        let recipe = craftableSkills.find(c =>
+            JSON.stringify(c.requiredSkills.sort()) === JSON.stringify(ids)
+        );
+        if (recipe) {
+            const alreadyOwned = inventory.some(s => s.id === recipe.resultSkill.id);
+            if (alreadyOwned) {
+                craftResult = null;
+            } else {
+                const level1 = craftingSlots[0].level || 1;
+                const level2 = craftingSlots[1].level || 1;
+                const newLevel = Math.floor((level1 + level2) / 2);
+                craftResult = { ...recipe.resultSkill, level: newLevel };
+            }
+        } else {
+            craftResult = null;
+        }
+        renderCraftResult();
+    } else {
+        craftResult = null;
+        renderCraftResult();
+    }
+    document.getElementById('craft-btn').disabled = !craftResult;
+}
+
+// Render craft result
+function renderCraftResult() {
+    let resultSlot = document.querySelector('.crafting-slot.result-slot');
+    if (craftResult) {
+        resultSlot.innerHTML = `<img src="${craftResult.image}" alt="${craftResult.label}" title="${craftResult.label}">`;
+        resultSlot.onclick = () => showSkillDetails(craftResult, true);
+        resultSlot.style.cursor = 'pointer';
+    } else {
+        resultSlot.innerHTML = '';
+        resultSlot.onclick = null;
+        resultSlot.style.cursor = 'default';
+    }
+}
+
+function showSkillDetails(skill, previewOnly = false) {
+    selectedSkill = skill;
+    renderDetails(previewOnly);
+    renderInventory(); 
+}
+
+// Craft Button logic
+document.getElementById('craft-btn').onclick = () => {
+    if (!craftResult) return;
+
+    craftingSlots.forEach(skill => {
+        let idx = inventory.findIndex(s => s.id === skill.id);
+        if (idx !== -1) inventory.splice(idx, 1);
+
+        let eqIdx = equipped.findIndex(s => s && s.id === skill.id);
+        if (eqIdx !== -1) {
+            equipped[eqIdx] = null;
+        }
+    });
+
+    inventory.push({ ...craftResult, level: craftResult.level });
+
+    craftingSlots = [null, null];
+    craftResult = null;
+    renderCraftingSlots();
+    renderCraftResult();
+    renderInventory();
+    renderEquipped();
+    sendEquippedSkillsToLua(); 
 };
 
 // Helper function to pick a skill based on weighted chances
@@ -164,7 +317,7 @@ function showGachaModal() {
 // Gacha Reel Animation and Logic
 function spinGachaReel() {
     gachaSpin.disabled = true;
-
+    
     const reelBox = document.getElementById('gacha-reel-box');
     const reelSlot = document.getElementById('gacha-reel-slot');
     reelBox.className = ''; 
@@ -206,7 +359,7 @@ function spinGachaReel() {
                 inventory.push({...winner});
             }
             renderInventory();
-            gachaSpin.disabled = false;
+            gachaSpin.disabled = false; 
         }
     }
     spinStep();
@@ -241,11 +394,3 @@ window.addEventListener('message', function(event) {
     }
 });
 
-document.addEventListener('keydown', function(e) {
-    if (e.key === "Escape") {
-        // Hide the menu and notify Lua
-        document.getElementById('nui-container').style.display = 'none';
-        fetch('https://vSkillSystem/closeSkills', { method: 'POST' });
-        e.preventDefault();
-    }
-});
