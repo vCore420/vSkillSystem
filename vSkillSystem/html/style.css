@@ -5,11 +5,51 @@ body {
     margin: 0;
     padding: 0;
 }
+:root {
+  --glass-bg: rgba(31, 38, 52, 0.25);
+  --glass-border: rgba(255, 255, 255, 0.22);
+  --glass-shadow: 0 10px 40px 0 rgba(31, 38, 135, 0.22);
+}
+.liquid-glass {
+  position: relative;
+  background: var(--glass-bg);
+  border-radius: 24px;
+  box-shadow: var(--glass-shadow), 0 1px 12px 2px rgba(255,255,255,0.06) inset;
+  isolation: isolate;
+  overflow: hidden;
+}
+/* Frosted blur and SVG distortion */
+.liquid-glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 28px;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  filter: url(#glass-distortion);
+  -webkit-filter: url("#glass-distortion");
+}
+.liquid-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 28px;
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 0 18px 8px rgba(255,255,255,0.35) inset;
+  pointer-events: none;
+}
+.liquid-glass > * {
+  position: relative;
+  z-index: 2;
+}
 #nui-container {
-    display: none;
+    display: none;    
     flex-wrap: wrap;
     gap: 24px;
-    padding: 32px;
+    padding: 48px;
     justify-content: center;
 }
 #equipped-section {
@@ -18,12 +58,24 @@ body {
     position: relative;
 }
 #equipped-section, #inventory-section, #details-section {
-    background: #23262f;
-    border-radius: 12px;
-    padding: 24px;
+    background: linear-gradient(
+        115deg,
+        #353849 0%,
+        #353849 43%,
+        #585c6e 44%,
+        #b3b6c4 46%,
+        #585c6e 47%,
+        #353849 48%,
+        #353849 100%
+    );
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    animation: move-gradient 6s ease-in-out infinite;
+    border-radius: 28px;    
+    padding: 26px;    6px;    one;
     min-width: 300px;
     min-height: 350px;
-    box-shadow: 0 4px 16px #0004;
+    box-shadow: 0 4px 16px #0004;    x #0004;    0px;
 }
 #inventory-section label[for="inventory-sort"] {
     color: #aaa;
@@ -31,7 +83,6 @@ body {
     margin-right: 6px;
     vertical-align: middle;
 }
-
 #inventory-section select#inventory-sort {
     background: #2d3038;
     color: #fff;
@@ -50,12 +101,10 @@ body {
     -moz-appearance: none;
     cursor: pointer;
 }
-
 #inventory-section select#inventory-sort:focus {
     border-color: #4fc3f7;
     box-shadow: 0 0 0 2px #4fc3f777;
 }
-
 #inventory-section select#inventory-sort option {
     background: #23262f;
     color: #fff;
@@ -223,4 +272,10 @@ button:disabled {
     height: 80px;
     border-radius: 8px;
     background: #222;
+}
+
+@keyframes move-gradient {
+  0%   { background-position: 40% 0; }
+  50%  { background-position: 45% 0; }
+  100% { background-position: 40% 0; }
 }

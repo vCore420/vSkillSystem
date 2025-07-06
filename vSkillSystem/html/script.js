@@ -383,6 +383,13 @@ window.onload = () => {
     renderDetails();
 };
 
+// Get the turbulence element and choose random seed
+const turbulence = document.getElementById('glass-turbulence');
+if (turbulence) {
+  const randomSeed = Math.floor(Math.random() * 9999) + 1;
+  turbulence.setAttribute('seed', randomSeed);
+}
+
 // Listen for NUI messages from Lua
 window.addEventListener('message', function(event) {
     if (event.data.action === 'showSkills') {

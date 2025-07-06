@@ -7,7 +7,7 @@
 </head>
 <body>
     <div id="nui-container">
-        <div id="equipped-section">
+        <div id="equipped-section" class="liquid-glass">
             <h2 id="equipped-title">Equipped Skills</h2>
             <div id="equipped-skills-content">
                 <div id="equipped-skills">
@@ -31,7 +31,7 @@
                <button id="gacha-btn">Roll for New Skill</button>
             </div>
         </div>
-        <div id="inventory-section">
+        <div id="inventory-section" class="liquid-glass">
             <h2>Skill Inventory</h2>
             <label for="inventory-sort">Sort by:</label>
             <select id="inventory-sort">
@@ -43,7 +43,7 @@
             <div id="skill-inventory">
             </div>
         </div>
-        <div id="details-section">
+        <div id="details-section" class="liquid-glass">
             <h2>Skill Details</h2>
             <div id="skill-details">
                 <p>Select a skill to see details.</p>
@@ -60,6 +60,15 @@
             </div>
         </div>
     </div>
+    <svg width="0" height="0" style="position:absolute; overflow:hidden">
+      <defs>
+        <filter id="glass-distortion" x="0%" y="0%" width="100%" height="100%">
+          <feTurbulence id="glass-turbulence" type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="2" seed="83" result="noise" />
+          <feGaussianBlur in="noise" stdDeviation="5" result="blurred" />
+          <feDisplacementMap in="SourceGraphic" in2="blurred" scale="40" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </defs>
+    </svg>
     <script src="skills.js"></script>
     <script src="script.js"></script>
 </body>
