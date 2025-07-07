@@ -1,20 +1,65 @@
 body {
-    background: transparent;
-    color: #fff;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+  background: transparent;
+  color: #fff;
+  font-family: 'Segoe UI', Arial, sans-serif; /* play round with different fonts */
+  margin: 0;
+  padding: 0;
 }
 :root {
+  --font-white: #fff;
+  --font-grey: #aaa;
+  --font-black: #23262f;
+  
   --glass-bg: rgba(31, 38, 52, 0.25);
-  --glass-border: rgba(255, 255, 255, 0.22);
-  --glass-shadow: 0 10px 40px 0 rgba(31, 38, 135, 0.22);
+  --glass-shadow-one: 0 10px 40px 0 rgba(31, 38, 135, 0.22);
+  --glass-shadow-two: rgba(255,255,255,0.06);
+  --glass-inset: 0 0 18px 8px rgba(255,255,255,0.35);
+  --glass-haze: rgba(255,255,255,0.35);
+  
+  --main-bg: linear-gradient(
+        115deg,
+        #353849 0%,
+        #353849 44%,
+        #585c6e 45%,
+        #b3b6c4 46%,
+        #585c6e 47%,
+        #353849 48%,
+        #353849 100%
+    );
+  --main-shadow: 0 4px 16px #0004;    x #0004;    0px;
+  
+  --dropdown-bg: #2d3038;
+  --dropdown-border: #4fc3f7;
+  --dropdown-shadow: 0 2px 6px #0002;
+  --dropdown-shadow-two: 0 0 0 2px #4fc3f777;
+  --dropdown-selected: #23262f;
+  
+  --slot-bg: #2d3038;
+  --slot-border: 2px solid #444;
+  --craft-result-bg: #1a1c22;
+  --craft-result-border: #ffd700;
+  
+  --button: #4fc3f7;
+  --button-disabled: #888;
+  
+  --gacha-bg: rgba(24,26,32,0.95);
+  --gacha-border: 4px solid #aaa;
+  --gacha-shadow: 0 0 16px #000a;
+  
+  --common-border: #aaa;
+  --common-shadow: 0 0 16px #aaa8;
+  --rare-border: #4fc3f7;
+  --rare-shadow: 0 0 24px #4fc3f7cc;
+  --epic-border: #a259f7;
+  --epic-shadow: 0 0 24px #a259f7cc;
+  --legendary-border: #ffd700;
+  --legendary-shadow: 0 0 32px #ffd700cc;
 }
 .liquid-glass {
   position: relative;
   background: var(--glass-bg);
   border-radius: 24px;
-  box-shadow: var(--glass-shadow), 0 1px 12px 2px rgba(255,255,255,0.06) inset;
+  box-shadow: var(--glass-shadow), 0 1px 12px 2px var(--glass-shadow-two) inset;
   isolation: isolate;
   overflow: hidden;
 }
@@ -37,8 +82,8 @@ body {
   inset: 0;
   z-index: 1;
   border-radius: 28px;
-  background: rgba(255,255,255,0.06);
-  box-shadow: 0 0 18px 8px rgba(255,255,255,0.35) inset;
+  background: var(--glass-shadow-two);
+  box-shadow: var(--glass-inset) inset;
   pointer-events: none;
 }
 .liquid-glass > * {
@@ -46,122 +91,113 @@ body {
   z-index: 2;
 }
 #nui-container {
-    display: none;    
-    flex-wrap: wrap;
-    gap: 24px;
-    padding: 48px;
-    justify-content: center;
+  display: none; /* 'none;' for fiveM, 'flex;' if testing in browser */ 
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 48px;
+  justify-content: center;
 }
 #equipped-section {
-    display: flex;
-    flex-direction: column;
-    position: relative;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 #equipped-section, #inventory-section, #details-section {
-    background: linear-gradient(
-        115deg,
-        #353849 0%,
-        #353849 43%,
-        #585c6e 44%,
-        #b3b6c4 46%,
-        #585c6e 47%,
-        #353849 48%,
-        #353849 100%
-    );
-    background-size: 200% 100%;
-    background-repeat: no-repeat;
-    animation: move-gradient 6s ease-in-out infinite;
-    border-radius: 28px;    
-    padding: 26px;    6px;    one;
-    min-width: 300px;
-    min-height: 350px;
-    box-shadow: 0 4px 16px #0004;    x #0004;    0px;
+  background: var(--main-bg);
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: move-gradient 6s ease-in-out infinite;
+  border-radius: 28px;    
+  padding: 26px;    6px;    one;
+  min-width: 300px;
+  min-height: 350px;
+  box-shadow: var(--main-shadow);
 }
 #inventory-section label[for="inventory-sort"] {
-    color: #aaa;
-    font-size: 1rem;
-    margin-right: 6px;
-    vertical-align: middle;
+  color: var(--font-grey);
+  font-size: 1rem;
+  margin-right: 6px;
+  vertical-align: middle;
 }
 #inventory-section select#inventory-sort {
-    background: #2d3038;
-    color: #fff;
-    border: 2px solid #444;
-    border-radius: 6px;
-    padding: 8px 16px;
-    font-size: 1rem;
-    margin-bottom: 16px;
-    margin-right: 8px;
-    margin-left: 2px;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    outline: none;
-    box-shadow: 0 2px 6px #0002;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    cursor: pointer;
+  background: var(--dropdown-bg);
+  color: var(--font-white);
+  border: var(--slot-border);
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  margin-bottom: 16px;
+  margin-right: 8px;
+  margin-left: 2px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  box-shadow: var(--dropdown-shadow);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
 }
 #inventory-section select#inventory-sort:focus {
-    border-color: #4fc3f7;
-    box-shadow: 0 0 0 2px #4fc3f777;
+  border-color: var(--dropdown-border);
+  box-shadow: var(--dropdown-shadow-two);
 }
 #inventory-section select#inventory-sort option {
-    background: #23262f;
-    color: #fff;
+  background: var(--button);
+  color: var(--font-white);
 }
 #skill-inventory {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    max-height: 320px;
-    overflow-y: auto;
-    padding: 10px;
-    box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 10px;
+  box-sizing: border-box;
 }
 #equipped-skills {
-    display: flex;
-    gap: 16px;
-    margin-top: 12px;
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
 }
 .skill-slot, .skill-card {
-    width: 72px;
-    height: 72px;
-    background: #2d3038;
-    border-radius: 8px;
-    border: 2px solid #444;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: border 0.2s;
+  width: 72px;
+  height: 72px;
+  background: var(--slot-bg);
+  border-radius: 8px;
+  border: var(--slot-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border 0.2s;
 }
 .skill-slot.selected, .skill-card.selected {
-    border: 2px solid #4fc3f7;
+  border: 2px solid var(--main-border);
 }
 .skill-card img, .skill-slot img, .crafting-slot img {
-    width: 48px;
-    height: 48px;
-    border-radius: 4px;
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
 }
 #details-section {
-    flex: 1 1 300px;
+  flex: 1 1 300px;
 }
 #skill-details {
-    margin-bottom: 16px;
+  margin-bottom: 16px;
 }
 button {
-    background: #4fc3f7;
-    color: #23262f;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 16px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.2s;
+  background: var(--button);
+  color: var(--font-black);
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 button:disabled {
-    background: #888;
-    cursor: not-allowed;
+  background: var(--button-disabled);
+  cursor: not-allowed;
 }
 #equipped-skills-content, #crafting-content {
   transition: opacity 0.34s;
@@ -185,17 +221,17 @@ button:disabled {
 .crafting-slot {
   width: 72px;
   height: 72px;
-  background: #2d3038;
+  background: var(--slot-bg);
   border-radius: 8px;
-  border: 2px dashed #4fc3f7;
+  border: 2px dashed var(--main-border);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .result-slot {
   border-style: solid;
-  border-color: #ffd700;
-  background: #1a1c22;
+  border-color: var(--craft-result-border);
+  background: var(--craft-result-bg);
 }
 #craft-btn {
   display: block;
@@ -209,69 +245,69 @@ button:disabled {
   z-index: 2;
 }
 .skill-card.common, .skill-slot.common {
-    border: 2px solid #aaa;
+  border: 2px solid var(--common-border);
 }
 .skill-card.rare, .skill-slot.rare {
-    border: 2px solid #4fc3f7;
+  border: 2px solid var(--rare-border);
 }
 .skill-card.epic, .skill-slot.epic {
-    border: 2px solid #a259f7;
+  border: 2px solid var(--epic-border);
 }
 .skill-card.legendary, .skill-slot.legendary {
-    border: 2px solid #ffd700;
+  border: 2px solid var(--legendary-border);
 }
 #gacha-section {
-    position: absolute;
-    left: 24px;
-    bottom: 24px;
-    margin: 0;
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  margin: 0;
 }
 #gacha-modal {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(24,26,32,0.95);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    flex-direction: column;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--gacha-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  flex-direction: column;
 }
 #gacha-modal.hidden {
-    display: none;
+  display: none;
 }
 #gacha-reel-box {
-    width: 104px;
-    height: 104px;
-    border: 4px solid #aaa;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 32px auto 16px auto;
-    box-shadow: 0 0 16px #000a;
-    transition: border-color 0.3s, box-shadow 0.3s;
+  width: 104px;
+  height: 104px;
+  border: var(--gacha-border);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 32px auto 16px auto;
+  box-shadow: var(--gacha-shadow)
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 #gacha-reel-box.common {
-    border-color: #aaa;
-    box-shadow: 0 0 16px #aaa8;
+  border-color: var(--common-border);
+  box-shadow: var(--common-shadow);
 }
 #gacha-reel-box.rare {
-    border-color: #4fc3f7;
-    box-shadow: 0 0 24px #4fc3f7cc;
+  border-color: var(--rare-border);
+  box-shadow: var(--rare-shadow);
 }
 #gacha-reel-box.epic {
-    border-color: #a259f7;
-    box-shadow: 0 0 24px #a259f7cc;
+  border-color: var(--epic-border);
+  box-shadow: var(--epic-shadow);
 }
 #gacha-reel-box.legendary {
-    border-color: #ffd700;
-    box-shadow: 0 0 32px #ffd700cc;
+  border-color: var(--legendary-border);
+  box-shadow: var(--legendary-shadow);
 }
 #gacha-reel-slot img {
-    width: 80px;
-    height: 80px;
-    border-radius: 8px;
-    background: #222;
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  background: #222;
 }
 
 @keyframes move-gradient {
