@@ -29,6 +29,8 @@ if you want to give it a try, drop the vSkillSystem folder in with your resource
 
 6/7 - Added Skill Crafting! can craft new skills by combinin 2 others! started working on the style of Nui to have a liquid glass type look to them
 
+7/7 - added root to CSS for all colours to easily change the nui theme
+
 
 ***Current plans todo***
 
