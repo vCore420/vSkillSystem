@@ -24,7 +24,7 @@
                 <div class="crafting-result-row">
                     <div class="crafting-slot result-slot" data-craftslot="result"></div>
                 </div>
-                <button id="craft-btn" style="margin: 12px auto 0 auto; display: block;">Craft</button>
+                <button id="craft-btn" style="margin: 12px auto 0 auto; display: block;" </button>Craft</button>
             </div>
             <button id="toggle-crafting-btn">Skill Crafting</button>
             <div id="gacha-section">
@@ -63,8 +63,8 @@
     <svg width="0" height="0" style="position:absolute; overflow:hidden">
       <defs>
         <filter id="glass-distortion" x="0%" y="0%" width="100%" height="100%">
-          <feTurbulence id="glass-turbulence" type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="1" seed="83" result="noise" />
-          <feGaussianBlur in="noise" stdDeviation="5" result="blurred" />
+          <feTurbulence id="glass-turbulence" type="fractalNoise" baseFrequency="0.024 0.024" numOctaves="56" seed="95" result="noise" />
+          <feGaussianBlur in="noise" stdDeviation="7" result="blurred" />
           <feDisplacementMap in="SourceGraphic" in2="blurred" scale="40" xChannelSelector="R" yChannelSelector="G" />
         </filter>
       </defs>
